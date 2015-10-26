@@ -3,14 +3,21 @@
 To install dependencies and start compiling:
 
 ```
-make install
-make watch
+npm install
 ```
 
-Then, in another tab run a local filesystem HTTP server:
+Make sure to globally install `live-server` and `tracuer`
+
+
+Then, in one tab run a local filesystem HTTP server:
 
 ```
-make serve
+live-server
+```
+And in another
+
+```
+tsc --watch
 ```
 
 And visit [http://localhost:8080](http://localhost:8080)
