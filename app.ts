@@ -61,8 +61,7 @@ class RedditArticle{
 }
 
 @Component({
-  selector: 'reddit',
-  properties: ['article']
+  selector: 'reddit'
 })
 
 @View({

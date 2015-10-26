@@ -60,8 +60,7 @@ var RedditApp = (function () {
     };
     RedditApp = __decorate([
         angular2_1.Component({
-            selector: 'reddit',
-            properties: ['article']
+            selector: 'reddit'
         }),
         angular2_1.View({
             template: "\n  <section class=\"new-link\">\n    <div class=\"control-group\">\n      <div><label for=\"title\">Title: </label></div>\n      <div><input name=\"title\" #newtitle></div>\n    </div>\n    <div class=\"control-group\">\n      <div><label for=\"link\">Link: </label></div>\n      <div><input name=\"link\" #newlink></div>\n    </div>\n\n    <button (click)=\"addArticle(newtitle, newlink)\">Submit Button</button>\n  </section>\n\n  <reddit-article\n    *ng-for=\"#article of articles\"\n    [article]=\"article\">\n  </reddit-article>\n  ",
