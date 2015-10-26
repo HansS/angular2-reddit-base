@@ -12,10 +12,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var angular2_1 = require("angular2/angular2");
 var Article = (function () {
-    function Article(title, link) {
+    function Article(title, link, type) {
         this.title = title;
         this.link = link;
         this.votes = 0;
+        this.type = type;
     }
     Article.prototype.voteUp = function () {
         this.votes += 1;
@@ -40,7 +41,7 @@ var RedditArticle = (function () {
             properties: ['article']
         }),
         angular2_1.View({
-            template: "\n  <article>\n    <div class=\"votes\">{{ article.votes }}</div>\n    <div class=\"main\">\n      <h2>\n        <a href=\"{{ article.link }}\">{{ article.title }}</a>\n        <span>({{ article.domain() }})</span>\n      </h2>\n      <ul>\n        <li><a href (click)='article.voteUp()'>upvote</a></li>\n        <li><a href (click)='article.voteDown()'>downvote</a></li>\n      </ul>\n    </div>\n  </article>\n  "
+            template: "\n  <article>\n    <div class=\"votes\">{{ article.votes }}</div>\n    <div class=\"main\">\n      <span>{{ article.type }}</span>\n      <h2>\n        <a href=\"{{ article.link }}\">{{ article.title }}</a>\n        <span>({{ article.domain() }})</span>\n      </h2>\n      <ul>\n        <li><a href (click)='article.voteUp()'>upvote</a></li>\n        <li><a href (click)='article.voteDown()'>downvote</a></li>\n      </ul>\n    </div>\n  </article>\n  "
         }), 
         __metadata('design:paramtypes', [])
     ], RedditArticle);
@@ -49,22 +50,24 @@ var RedditArticle = (function () {
 var RedditApp = (function () {
     function RedditApp() {
         this.articles = [
-            new Article('Angular 2', 'http://angular.io'),
-            new Article('Fullstack', 'http://fullstack.io')
+            new Article('Angular 2', 'http://angular.io', 'technical'),
+            new Article('Fullstack', 'http://fullstack.io', 'technical')
         ];
+        this.newType = 'technical';
     }
-    RedditApp.prototype.addArticle = function (title, link) {
-        this.articles.push(new Article(title.value, link.value));
+    RedditApp.prototype.addArticle = function (title, link, type) {
+        this.articles.push(new Article(title.value, link.value, type));
         title.value = '';
         link.value = '';
+        type = 'entertainment';
     };
     RedditApp = __decorate([
         angular2_1.Component({
             selector: 'reddit'
         }),
         angular2_1.View({
-            template: "\n  <section class=\"new-link\">\n    <div class=\"control-group\">\n      <div><label for=\"title\">Title: </label></div>\n      <div><input name=\"title\" #newtitle></div>\n    </div>\n    <div class=\"control-group\">\n      <div><label for=\"link\">Link: </label></div>\n      <div><input name=\"link\" #newlink></div>\n    </div>\n\n    <button (click)=\"addArticle(newtitle, newlink)\">Submit Button</button>\n  </section>\n\n  <reddit-article\n    *ng-for=\"#article of articles\"\n    [article]=\"article\">\n  </reddit-article>\n  ",
-            directives: [RedditArticle, angular2_1.NgFor]
+            template: "\n  <section class=\"new-link\">\n    <div class=\"control-group\">\n      <div><label for=\"title\">Title: </label></div>\n      <div><input name=\"title\" #newtitle></div>\n    </div>\n    <div class=\"control-group\">\n      <div><label for=\"link\">Link: </label></div>\n      <div><input name=\"link\" #newlink></div>\n    </div>\n    </div>\n    <div class=\"control-group\">\n      <select [(ng-model)]=\"newType\">\n        <option value=\"technical\">Technical</option>\n        <option value=\"entertainment\">Entertainment</option>\n      </select>\n    </div>\n\n    <button (click)=\"addArticle(newtitle, newlink, newType)\">Submit Button</button>\n  </section>\n\n  <reddit-article\n    *ng-for=\"#article of articles\"\n    [article]=\"article\">\n  </reddit-article>\n  ",
+            directives: [RedditArticle, angular2_1.NgFor, angular2_1.formDirectives]
         }), 
         __metadata('design:paramtypes', [])
     ], RedditApp);
